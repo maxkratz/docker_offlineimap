@@ -38,6 +38,6 @@ RUN sudo update-ca-certificates
 
 # Check if logging is enabled
 CMD if [ "${MAILLOG}" = "TRUE" ]; \
-    then mkdir -p /mnt/log && offlineimap -c /mnt/config/offlineimap.conf -l /mnt/log/$(date +'%Y-%m-%d_%H-%M-%S')_mail-backup.log; \
-    else offlineimap -c /mnt/config/offlineimap.conf; \
+    then mkdir -p /mnt/log && sudo offlineimap -c /mnt/config/offlineimap.conf -l /mnt/log/$(date +'%Y-%m-%d_%H-%M-%S')_mail-backup.log; \
+    else sudo offlineimap -c /mnt/config/offlineimap.conf; \
     fi
