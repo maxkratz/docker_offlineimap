@@ -1,5 +1,7 @@
 # docker_offlineimap
 
+[![Build Status](https://github.ci.maxkratz.com/api/badges/maxkratz/docker_offlineimap/status.svg)](https://github.ci.maxkratz.com/maxkratz/docker_offlineimap)
+
 *Unofficial* OfflineIMAP Dockerfile for backing up all folders of an imap server.
 
 ## Quickstart

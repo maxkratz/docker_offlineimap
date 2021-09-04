@@ -1,0 +1,22 @@
+kind: pipeline
+name: default
+
+auth: &auth
+    username:
+        from_secret: dockerhub_username
+    password:
+        from_secret: dockerhub_password
+
+repo: &repo
+    repo: maxkratz/offlineimap
+
+steps:
+  - name: build-latest
+    image: plugins/docker
+    settings:
+        <<: *repo
+        tags: latest
+        <<: *auth
+    when:
+        branch:
+            - master
