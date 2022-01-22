@@ -1,22 +1,98 @@
 kind: pipeline
 name: default
 
-auth: &auth
-    username:
-        from_secret: dockerhub_username
-    password:
-        from_secret: dockerhub_password
+#
+# Global definitions
+#
 
-repo: &repo
-    repo: maxkratz/offlineimap
+# This CI uses a fork of docker/dind which also provides buildx support.
+.buildimage: &buildimage
+  image: maniator/dind-buildx
+
+# Environment setup.
+.env: &env
+  environment:
+    USERNAME:
+      from_secret: dockerhub_username
+    PASSWORD:
+      from_secret: dockerhub_password
+    REPO: maxkratz/offlineimap
+
+# Define a temporary volue for communicating with the dind service.
+.dockervolume: &dockervolume
+  volumes:
+    - name: dockersock
+      path: /var/run
+
+# Wait a bit for dind to start
+.sleep: &sleep
+  sleep 5
+
+# Login to dockerhub.
+.login: &login
+  docker login -u $USERNAME -p $PASSWORD
+
+# Setup the buildx builder.
+.setup: &setup
+  docker run --rm --privileged multiarch/qemu-user-static --reset -p yes && docker buildx create --name builder --driver docker-container --use && docker buildx inspect --bootstrap
+# ^normally, one would use a syntax like this:
+#.setup: &setup
+#  - docker ..
+#  - docker ..
+# BUT: The YAML parser of drone does not allow it and returns an error:
+# > cannot unmarshal !!seq into string
+# Therefore, the setup block uses && to run all three docker comands as one single string.
+#
+# Additionally, this command breaks if some newlines `\` are included.
+
+# Only build and push images if commit is on the branch `main`.
+.ismain: &ismain
+  when:
+    branch:
+      include:
+        - main
+
+# Only build(-only) images if commit is NOT on the branch `main`.
+.isnotmain: &isnotmain
+  when:
+    branch:
+      exclude:
+        - main
 
 steps:
+  # Build latest image without pushing it.
   - name: build-latest
-    image: plugins/docker
-    settings:
-        <<: *repo
-        tags: latest
-        <<: *auth
-    when:
-        branch:
-            - master
+    <<: *buildimage
+    <<: *dockervolume
+    <<: *env
+    commands:
+      - *sleep
+      - *setup
+      - docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t $REPO:latest .
+    <<: *isnotmain
+
+  # Build and push latest image.
+  - name: build-and-push-latest
+    <<: *buildimage
+    <<: *dockervolume
+    <<: *env
+    commands:
+      - *sleep
+      - *login
+      - *setup
+      - docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t $REPO:latest --push .
+    <<: *ismain
+
+#
+# Dind service for building Docker images.
+#
+services:
+  - name: docker
+    image: docker:dind
+    privileged: true
+    <<: *dockervolume
+
+# The temporary volume for the dockersocket.
+volumes:
+  - name: dockersock
+    temp: {}
