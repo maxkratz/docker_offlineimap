@@ -61,7 +61,7 @@ Please notice that this container provides validated CAs in folder shown above.
 
 ## Dockerfile
 The Dockerfile can be found at:
-[https://github.com/maxkratz/docker_offlineimap/blob/master/Dockerfile](https://github.com/maxkratz/docker_offlineimap/blob/master/Dockerfile)
+[https://github.com/maxkratz/docker_offlineimap/blob/main/Dockerfile](https://github.com/maxkratz/docker_offlineimap/blob/main/Dockerfile)
 
 ## What gets installed in this container?
 The following packages are installed within this docker container:
