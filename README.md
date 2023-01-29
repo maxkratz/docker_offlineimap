@@ -1,6 +1,6 @@
 # docker_offlineimap
 
-[![Build Status](https://github.ci.maxkratz.com/api/badges/maxkratz/docker_offlineimap/status.svg)](https://github.ci.maxkratz.com/maxkratz/docker_offlineimap)
+[![Build Docker images](https://github.com/maxkratz/docker_offlineimap/actions/workflows/build.yml/badge.svg)](https://github.com/maxkratz/docker_offlineimap/actions/workflows/build.yml)
 
 *Unofficial* OfflineIMAP Dockerfile for backing up all folders of an imap server.
 
@@ -61,7 +61,7 @@ Please notice that this container provides validated CAs in folder shown above.
 
 ## Dockerfile
 The Dockerfile can be found at:
-[https://github.com/maxkratz/docker_offlineimap/blob/master/Dockerfile](https://github.com/maxkratz/docker_offlineimap/blob/master/Dockerfile)
+[https://github.com/maxkratz/docker_offlineimap/blob/main/Dockerfile](https://github.com/maxkratz/docker_offlineimap/blob/main/Dockerfile)
 
 ## What gets installed in this container?
 The following packages are installed within this docker container:
