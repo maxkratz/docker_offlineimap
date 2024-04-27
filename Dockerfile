@@ -1,5 +1,5 @@
-# Use ubuntu 22.04
-FROM ubuntu:22.04
+# Use ubuntu 24.04
+FROM ubuntu:24.04
 LABEL maintainer="Max Kratz <account@maxkratz.com>"
 ENV DEBIAN_FRONTEND=noninteractive
 
