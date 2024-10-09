@@ -1,6 +1,7 @@
 # docker_offlineimap
 
-[![Build Docker images](https://github.com/maxkratz/docker_offlineimap/actions/workflows/build.yml/badge.svg)](https://github.com/maxkratz/docker_offlineimap/actions/workflows/build.yml)
+[![Build Docker images (tag)](https://github.com/maxkratz/docker_offlineimap/actions/workflows/build-tag.yml/badge.svg)](https://github.com/maxkratz/docker_offlineimap/actions/workflows/build-tag.yml)
+[![Build Docker images (main)](https://github.com/maxkratz/docker_offlineimap/actions/workflows/build-dev.yml/badge.svg)](https://github.com/maxkratz/docker_offlineimap/actions/workflows/build-dev.yml)
 
 *Unofficial* OfflineIMAP Dockerfile for backing up all folders of an imap server.
 
